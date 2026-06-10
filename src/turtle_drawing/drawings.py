@@ -205,10 +205,11 @@ def draw_picture(t):
 
 
 def on_click(t, x, y):
-    """Interactive mode: draw a purple circle wherever you click."""
+    """Interactive mode: draw a circle using the current pen color."""
+    current_color = t.pencolor()
     t.pensize(3)
     jump_to(t, x, y - 20)
-    draw_filled_circle(t, 20, "purple", "plum")
+    draw_filled_circle(t, 20, current_color, current_color)
     jump_to(t, x, y)
 
 
