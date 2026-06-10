@@ -1,0 +1,24 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Render Turtle Preview",
+      "type": "shell",
+      "command": "uv run render",
+      "problemMatcher": []
+    },
+    {
+      "label": "Watch Turtle Preview",
+      "type": "shell",
+      "command": "uv run watch",
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "Open Turtle App",
+      "type": "shell",
+      "command": "uv run draw",
+      "problemMatcher": []
+    }
+  ]
+}

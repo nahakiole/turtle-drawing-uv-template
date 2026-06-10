@@ -1,0 +1,18 @@
+[project]
+name = "turtle-drawing-template"
+version = "0.1.0"
+description = "A beginner-friendly Turtle drawing project with auto-refresh PNG preview."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pillow>=10.4.0",
+    "watchdog>=4.0.0",
+]
+
+[project.scripts]
+draw = "turtle_drawing.app_turtle:main"
+render = "turtle_drawing.render:main"
+watch = "turtle_drawing.watch:main"
+
+[tool.uv]
+package = true
