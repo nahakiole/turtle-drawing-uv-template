@@ -88,7 +88,6 @@ def import_picture(t, path, x, y, width=None, height=None):
         return
 
     jump_to(t, x, y)
-    t.write(f"Picture: {path}", font=("Arial", 12, "normal"))
 
 
 def get_pixel_color(t, x, y):
@@ -135,7 +134,7 @@ def draw_picture(t):
     """
 
     t.speed(0)
-    t.pensize(4)
+    t.pensize(5)
 
     # Import an existing picture.
     # Try replacing this with your own PNG or JPG file.
@@ -146,7 +145,6 @@ def draw_picture(t):
     pixel_color = get_pixel_color(t, -280, 100)
     jump_to(t, -340, 35)
     t.color("black")
-    t.write(f"Pixel: {pixel_color}", font=("Arial", 14, "normal"))
     draw_color_swatch(t, -340, 20, pixel_color)
 
     # Sun
@@ -193,8 +191,8 @@ def draw_picture(t):
     draw_filled_circle(t, 45, "forestgreen", "limegreen")
 
     # Flowers
-    draw_flower(t, -260, -175)
-    draw_flower(t, -210, -185)
+    draw_flower(t, -290, -175)
+    draw_flower(t, -200, -185)
     draw_flower(t, 245, -180)
 
     # Star
@@ -203,3 +201,46 @@ def draw_picture(t):
     t.color("darkorange")
     t.pensize(3)
     draw_star(t, 65)
+
+
+def on_click(t, x, y):
+    """Interactive mode: draw a purple circle wherever you click."""
+    t.pensize(3)
+    jump_to(t, x, y - 20)
+    draw_filled_circle(t, 20, "purple", "plum")
+    jump_to(t, x, y)
+
+
+def on_key(t, key):
+    """Interactive mode: use arrow keys, space, c, r, g, and b."""
+    if key == "c":
+        t.clear()
+        draw_picture(t)
+        return
+
+    if key == "r":
+        t.color("red")
+        return
+
+    if key == "g":
+        t.color("green")
+        return
+
+    if key == "b":
+        t.color("blue")
+        return
+
+    if key == "space":
+        draw_star(t, 50)
+        return
+
+    directions = {
+        "Up": 90,
+        "Down": 270,
+        "Left": 180,
+        "Right": 0,
+    }
+
+    if key in directions:
+        t.setheading(directions[key])
+        t.forward(30)

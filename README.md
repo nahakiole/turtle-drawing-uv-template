@@ -57,6 +57,43 @@ This keeps a window open, redraws your picture after each save, and also updates
 output/drawing.png
 ```
 
+## Interactive Turtle preview
+
+To watch Turtle draw in real time and use mouse or keyboard controls, run:
+
+```bash
+uv run interactive
+```
+
+This opens a real Turtle window and reloads `drawings.py` every time you save.
+
+The example file includes two optional functions for interaction:
+
+```python
+def on_click(t, x, y):
+    # Runs when you click the window.
+    ...
+
+
+def on_key(t, key):
+    # Runs when you press a supported key.
+    ...
+```
+
+In the included example:
+
+- click draws a purple circle
+- arrow keys move the turtle and draw lines
+- space draws a star
+- `r`, `g`, and `b` change the pen color
+- `c` clears the drawing and redraws the starting picture
+
+For slower real-time drawing, change this line in `draw_picture(t)`:
+
+```python
+t.speed(1)
+```
+
 ## Run the real Turtle window
 
 ```bash
@@ -69,9 +106,11 @@ This opens the normal Turtle window. The PNG renderer supports the most importan
 
 1. Open this folder in VS Code.
 2. Open `src/turtle_drawing/drawings.py` on the left.
-3. Run the task `Live Turtle Preview`.
+3. Run the task `Interactive Turtle Preview`.
 4. Edit and save the Python file.
 5. Watch the preview window update.
+
+For a non-interactive preview window, run the task `Live Turtle Preview`.
 
 If you prefer the old file-only workflow, run the task `Watch Turtle Preview` and open `output/drawing.png` on the right.
 
