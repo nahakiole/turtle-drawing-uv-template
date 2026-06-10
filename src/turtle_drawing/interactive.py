@@ -79,7 +79,7 @@ class InteractivePreview:
 
     def reset_artist(self):
         self.artist.reset()
-        self.artist.shape("turtle")
+        self.artist.hideturtle()
         self.artist.speed(6)
         self.artist.pensize(2)
         self.artist.color("black")

@@ -133,6 +133,7 @@ def draw_picture(t):
     - y goes down/up
     """
 
+    t.hideturtle()
     t.speed(0)
     t.pensize(5)
 
