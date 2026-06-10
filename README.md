@@ -72,6 +72,36 @@ Try changing `draw_picture(t)` to draw:
 - a monster
 - a mandala
 
+## Import a picture
+
+The example file includes:
+
+```python
+import_picture(t, "assets/example_picture.png", -280, 100, width=120)
+```
+
+This puts an existing image into the PNG preview. Try adding your own image file to the project and changing the path:
+
+```python
+import_picture(t, "assets/my_photo.jpg", 0, 0, width=200)
+```
+
+## Read a pixel color
+
+The example file also includes:
+
+```python
+pixel_color = get_pixel_color(t, -280, 100)
+```
+
+This reads the color at Turtle coordinates `(-280, 100)` from the PNG preview and returns an RGB value like:
+
+```python
+(135, 206, 235)
+```
+
+Pixel reading works with `uv run render` and `uv run watch`, because those commands create the PNG preview. The normal Turtle window does not support reading PNG pixels.
+
 ## Supported drawing commands in preview mode
 
 The PNG preview supports these Turtle-like commands:
@@ -94,6 +124,8 @@ t.dot(20, "green")
 t.begin_fill()
 t.end_fill()
 t.write("Hello")
+t.draw_image("assets/example_picture.png", 0, 0, width=120)
+t.pixel_at(0, 0)
 ```
 
 For more advanced Turtle commands, use `uv run draw` with the real Turtle window.

@@ -10,7 +10,7 @@ import math
 from pathlib import Path
 from typing import List, Tuple
 
-from PIL import Image, ImageColor, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont
 
 from turtle_drawing.drawings import draw_picture
 
@@ -145,6 +145,40 @@ class PreviewTurtle:
             self._screen(self.x + r, self.y - r),
         ]
         self.draw.ellipse([bbox[0][0], bbox[0][1], bbox[1][0], bbox[1][1]], fill=colour)
+
+    def draw_image(
+        self,
+        path: str,
+        x: float,
+        y: float,
+        width: int | None = None,
+        height: int | None = None,
+    ):
+        """Paste an image into the PNG preview, centered at Turtle coordinates x, y."""
+        picture = Image.open(path).convert("RGBA")
+
+        if width is not None or height is not None:
+            original_width, original_height = picture.size
+            if width is None:
+                width = round(original_width * height / original_height)
+            if height is None:
+                height = round(original_height * width / original_width)
+            picture = picture.resize((int(width), int(height)))
+
+        screen_x, screen_y = self._screen(x, y)
+        left = screen_x - picture.width // 2
+        top = screen_y - picture.height // 2
+        self.image.paste(picture, (left, top), picture)
+        self.draw = ImageDraw.Draw(self.image)
+
+    def pixel_at(self, x: float, y: float) -> tuple[int, int, int] | None:
+        """Return the RGB color at Turtle coordinates x, y."""
+        screen_x, screen_y = self._screen(x, y)
+        if not (0 <= screen_x < self.width and 0 <= screen_y < self.height):
+            return None
+
+        red, green, blue = self.image.getpixel((screen_x, screen_y))
+        return red, green, blue
 
     def write(self, text: str, font=None, align: str = "left"):
         try:

@@ -81,6 +81,34 @@ def jump_to(t, x, y):
     t.pendown()
 
 
+def import_picture(t, path, x, y, width=None, height=None):
+    """Add an existing picture to the PNG preview, centered at x, y."""
+    if hasattr(t, "draw_image"):
+        t.draw_image(path, x, y, width=width, height=height)
+        return
+
+    jump_to(t, x, y)
+    t.write(f"Picture: {path}", font=("Arial", 12, "normal"))
+
+
+def get_pixel_color(t, x, y):
+    """Get the RGB color at x, y in the PNG preview."""
+    if hasattr(t, "pixel_at"):
+        return t.pixel_at(x, y)
+
+    return None
+
+
+def draw_color_swatch(t, x, y, color):
+    """Draw a little square showing an RGB color."""
+    if color is None:
+        return
+
+    jump_to(t, x, y)
+    t.setheading(0)
+    draw_filled_square(t, 28, "black", color)
+
+
 def draw_flower(t, x, y):
     """Draw a small flower centered near x, y."""
     petal_radius = 18
@@ -108,6 +136,18 @@ def draw_picture(t):
 
     t.speed(0)
     t.pensize(4)
+
+    # Import an existing picture.
+    # Try replacing this with your own PNG or JPG file.
+    import_picture(t, "assets/example_picture.png", -280, 100, width=120)
+
+    # Read one pixel from the finished drawing so far.
+    # The result is an RGB color like (135, 206, 235).
+    pixel_color = get_pixel_color(t, -280, 100)
+    jump_to(t, -340, 35)
+    t.color("black")
+    t.write(f"Pixel: {pixel_color}", font=("Arial", 14, "normal"))
+    draw_color_swatch(t, -340, 20, pixel_color)
 
     # Sun
     jump_to(t, 260, 180)
