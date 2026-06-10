@@ -45,7 +45,7 @@ Every time you save, the PNG is regenerated.
 
 ## Printable cheatsheet
 
-Print the one-page command cheatsheet:
+Print the command cheatsheet:
 
 ```text
 docs/turtle-drawing-cheatsheet.pdf
