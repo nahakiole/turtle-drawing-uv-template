@@ -4,6 +4,7 @@ __pycache__/
 *.egg-info/
 output/
 .DS_Store
+.turtle-preview-window.json
 
 # Accidental nested copy of this project.
 turtle-drawing-uv-template/

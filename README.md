@@ -66,6 +66,7 @@ uv run interactive
 ```
 
 This opens a real Turtle window and reloads `drawings.py` every time you save.
+The window position is remembered, so if you move it and restart the preview it opens in the same place.
 
 The example file includes two optional functions for interaction:
 
