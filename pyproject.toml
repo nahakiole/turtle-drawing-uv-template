@@ -11,6 +11,7 @@ dependencies = [
 
 [project.scripts]
 draw = "turtle_drawing.app_turtle:main"
+live = "turtle_drawing.live:main"
 render = "turtle_drawing.render:main"
 watch = "turtle_drawing.watch:main"
 

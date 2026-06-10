@@ -12,8 +12,6 @@ from typing import List, Tuple
 
 from PIL import Image, ImageDraw, ImageFont
 
-from turtle_drawing.drawings import draw_picture
-
 Point = Tuple[float, float]
 
 
@@ -204,6 +202,8 @@ class PreviewTurtle:
 
 
 def main():
+    from turtle_drawing.drawings import draw_picture
+
     output = Path("output/drawing.png")
     t = PreviewTurtle()
     draw_picture(t)

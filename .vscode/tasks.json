@@ -15,6 +15,13 @@
       "problemMatcher": []
     },
     {
+      "label": "Live Turtle Preview",
+      "type": "shell",
+      "command": "uv run live",
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
       "label": "Open Turtle App",
       "type": "shell",
       "command": "uv run draw",

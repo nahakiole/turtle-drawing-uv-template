@@ -43,6 +43,20 @@ src/turtle_drawing/drawings.py
 
 Every time you save, the PNG is regenerated.
 
+## Live preview window
+
+To open a preview window that updates every time you save `drawings.py`, run:
+
+```bash
+uv run live
+```
+
+This keeps a window open, redraws your picture after each save, and also updates:
+
+```text
+output/drawing.png
+```
+
 ## Run the real Turtle window
 
 ```bash
@@ -55,9 +69,11 @@ This opens the normal Turtle window. The PNG renderer supports the most importan
 
 1. Open this folder in VS Code.
 2. Open `src/turtle_drawing/drawings.py` on the left.
-3. Run the task `Watch Turtle Preview`.
-4. Open `output/drawing.png` on the right.
-5. Save the Python file and watch the image update.
+3. Run the task `Live Turtle Preview`.
+4. Edit and save the Python file.
+5. Watch the preview window update.
+
+If you prefer the old file-only workflow, run the task `Watch Turtle Preview` and open `output/drawing.png` on the right.
 
 ## Challenge ideas
 
