@@ -43,6 +43,14 @@ src/turtle_drawing/drawings.py
 
 Every time you save, the PNG is regenerated.
 
+## Printable cheatsheet
+
+Print the one-page command cheatsheet:
+
+```text
+docs/turtle-drawing-cheatsheet.pdf
+```
+
 ## Live preview window
 
 To open a preview window that updates every time you save `drawings.py`, run:
