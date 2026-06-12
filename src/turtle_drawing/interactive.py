@@ -62,7 +62,7 @@ class InteractivePreview:
         try:
             self.drawings = self.load_drawings()
             self.reset_artist()
-            self.drawings.draw_picture(self.artist)
+            self.draw_picture_fast()
             self.bind_interaction()
             self.show_message(f"Updated {time.strftime('%H:%M:%S')}")
         except Exception:
@@ -76,6 +76,14 @@ class InteractivePreview:
             return importlib.reload(sys.modules[module_name])
 
         return importlib.import_module(module_name)
+
+    def draw_picture_fast(self):
+        self.screen.tracer(0, 0)
+        try:
+            self.drawings.draw_picture(self.artist)
+        finally:
+            self.screen.update()
+            self.screen.tracer(1, 0)
 
     def reset_artist(self):
         self.artist.reset()
