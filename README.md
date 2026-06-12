@@ -73,8 +73,8 @@ To watch Turtle draw in real time and use mouse or keyboard controls, run:
 uv run interactive
 ```
 
-This opens a real Turtle window and reloads `drawings.py` every time you save.
-The window position is remembered, so if you move it and restart the preview it opens in the same place.
+This opens a real Turtle window. Every time you save, the current Turtle window is stopped and a fresh one starts right away, so a slow drawing does not have to finish first.
+The window position is remembered, so if the preview reopens it stays in the same place.
 
 The example file includes two optional functions for interaction:
 

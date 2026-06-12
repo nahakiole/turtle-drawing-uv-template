@@ -5,6 +5,7 @@ from __future__ import annotations
 import importlib
 import json
 import os
+import subprocess
 import sys
 import time
 import traceback
@@ -16,6 +17,7 @@ DRAWINGS_PATH = PROJECT_ROOT / "src" / "turtle_drawing" / "drawings.py"
 WINDOW_STATE_PATH = PROJECT_ROOT / ".turtle-preview-window.json"
 CHANGE_CHECK_MS = 100
 WINDOW_STATE_SAVE_MS = 1000
+CHILD_ARG = "--child"
 
 KEYS = [
     "Up",
@@ -48,34 +50,22 @@ class InteractivePreview:
         self.message.penup()
 
         self.drawings = None
-        self.last_mtime_ns = 0
         self.last_saved_geometry = ""
 
     def start(self):
-        self.reload_and_draw()
-        self.screen.ontimer(self.check_for_changes, CHANGE_CHECK_MS)
         self.screen.ontimer(self.save_window_geometry_if_changed, WINDOW_STATE_SAVE_MS)
+        self.draw()
         self.screen.mainloop()
 
-    def check_for_changes(self):
-        try:
-            mtime_ns = DRAWINGS_PATH.stat().st_mtime_ns
-            if mtime_ns != self.last_mtime_ns:
-                self.reload_and_draw()
-        finally:
-            self.screen.ontimer(self.check_for_changes, CHANGE_CHECK_MS)
-
-    def reload_and_draw(self):
+    def draw(self):
         self.save_window_geometry()
         try:
             self.drawings = self.load_drawings()
             self.reset_artist()
             self.drawings.draw_picture(self.artist)
             self.bind_interaction()
-            self.last_mtime_ns = DRAWINGS_PATH.stat().st_mtime_ns
             self.show_message(f"Updated {time.strftime('%H:%M:%S')}")
         except Exception:
-            self.last_mtime_ns = DRAWINGS_PATH.stat().st_mtime_ns
             self.show_error(traceback.format_exc())
 
     def load_drawings(self):
@@ -170,9 +160,58 @@ class InteractivePreview:
         )
 
 
+class InteractiveSupervisor:
+    def __init__(self):
+        self.child = None
+        self.last_mtime_ns = self.current_mtime_ns()
+
+    def start(self):
+        self.start_child()
+        try:
+            while True:
+                time.sleep(CHANGE_CHECK_MS / 1000)
+
+                if self.current_mtime_ns() != self.last_mtime_ns:
+                    self.last_mtime_ns = self.current_mtime_ns()
+                    self.restart_child()
+                    continue
+
+                if self.child and self.child.poll() is not None:
+                    break
+        except KeyboardInterrupt:
+            self.stop_child()
+
+    def start_child(self):
+        self.child = subprocess.Popen(
+            [sys.executable, "-m", "turtle_drawing.interactive", CHILD_ARG],
+            cwd=PROJECT_ROOT,
+        )
+
+    def restart_child(self):
+        self.stop_child()
+        self.start_child()
+
+    def stop_child(self):
+        if not self.child or self.child.poll() is not None:
+            return
+
+        self.child.terminate()
+        try:
+            self.child.wait(timeout=1)
+        except subprocess.TimeoutExpired:
+            self.child.kill()
+            self.child.wait(timeout=1)
+
+    def current_mtime_ns(self):
+        return DRAWINGS_PATH.stat().st_mtime_ns
+
+
 def main():
     os.chdir(PROJECT_ROOT)
-    InteractivePreview().start()
+    if CHILD_ARG in sys.argv:
+        InteractivePreview().start()
+    else:
+        InteractiveSupervisor().start()
 
 
 if __name__ == "__main__":
